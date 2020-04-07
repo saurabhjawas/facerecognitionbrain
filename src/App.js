@@ -4,6 +4,7 @@ import Logo from './components/Logo/Logo'
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm'
 import Rank from './components/Rank/Rank'
 import FaceRecognition from './components/FaceRecognition/FaceRecognition'
+import Signin from './components/Signin/Signin'
 import Particles from 'react-particles-js'
 import Clarifai from 'clarifai'
 
@@ -17,14 +18,7 @@ const particleOptions = {
         enable: true,
         value_area: 800
       }
-    }/*,
-    line_linked: {
-      shadow: {
-        enable: true,
-        color: "3ca9d1",
-        blue: 5
-      }
-    } */
+    }
   }
 }
 
@@ -33,14 +27,18 @@ const app = new Clarifai.App({
  });
 
 class App extends React.Component {
-
   constructor() {
     super()
     this.state = {
       input: '',
       imageUrl: '',
-      boxes: []
+      boxes: [],
+      route: 'signin'
     }
+  }
+
+  onRouteChange = (route) => {
+    this.setState({ route })
   }
 
   calculateFaceLocation = (data) => {
@@ -105,18 +103,21 @@ class App extends React.Component {
           params={particleOptions}
         />
 
-        <Navigation />
-        <Logo />
-        <Rank />
-        <ImageLinkForm
-          onInputChange={this.onInputChange}
-          onButtonSubmit={this.onButtonSubmit}
-        />
-        
-        <FaceRecognition imageUrl={this.state.imageUrl}
-          boxes={this.state.boxes}
-        /> 
-        
+        <Navigation onRouteChange={this.onRouteChange} />
+        { this.state.route === 'signin'
+        ? <Signin onRouteChange={this.onRouteChange} />
+        : <React.Fragment>
+          <Logo />
+          <Rank />
+          <ImageLinkForm
+            onInputChange={this.onInputChange}
+            onButtonSubmit={this.onButtonSubmit}
+          />
+          
+          <FaceRecognition imageUrl={this.state.imageUrl}
+            boxes={this.state.boxes}
+          /> 
+        </React.Fragment> }
       </div>
     );
   }
