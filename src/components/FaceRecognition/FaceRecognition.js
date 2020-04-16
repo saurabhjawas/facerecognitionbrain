@@ -3,25 +3,24 @@ import './FaceRecognition.css'
 
 const FaceRecognition = ({ imageUrl, boxes }) => (
   <div className="center ma">
-    <div className="absolute mt2">
+    <div className="absolute mt2"> { imageUrl && 
       <img src={imageUrl}
         id="inputimage"
         alt="random" 
-      />      
-      {
-        boxes.map((box, index) => (
-          <div  key={index}
-            className="bounding-box"
-            style={{ 
-              top: box.topRow,
-              right: box.rightCol,
-              bottom: box.bottomRow,
-              left: box.leftCol
-            }}
-          ></div>
-        ))      
-      }
-      </div>
+      />  
+    } { boxes.map((box, index) => (
+      <div  key={index}
+        className="bounding-box"
+        style={{ 
+          top: box.topRow,
+          right: box.rightCol,
+          bottom: box.bottomRow,
+          left: box.leftCol
+        }}
+      ></div>
+      ))      
+    }
+    </div>
   </div>
 )
 
